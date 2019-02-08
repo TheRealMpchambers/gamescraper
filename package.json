@@ -1,0 +1,29 @@
+{
+  "name": "gamescraper",
+  "version": "1.0.0",
+  "description": "node.js web scraper app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheRealMpchambers/gamescraper.git"
+  },
+  "author": "therealmpchambers",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheRealMpchambers/gamescraper/issues"
+  },
+  "homepage": "https://github.com/TheRealMpchambers/gamescraper#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.4",
+    "jquery": "^3.3.1",
+    "json": "^9.0.6",
+    "mongoose": "^5.4.10",
+    "morgan": "^1.9.1"
+  }
+}
