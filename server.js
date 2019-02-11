@@ -6,8 +6,7 @@ const express = require('express'),
         cheerio = require('cheerio')
         db = require('./models');
 
-const MONGOGB_URI = process.env.MONGOGB_URI || 'mongodb://localhost:27017/gamenews';
-
+const MONGOGB_URI = process.env.MONGOGB_URI;
 mongoose.Promise = Promise;
 
 mongoose.connect(MONGOGB_URI, function(err) {
