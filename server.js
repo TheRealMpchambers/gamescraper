@@ -14,6 +14,12 @@ if (process.env.MONGODB_URI) {
     mongoose.connect('mongodb://original1:original1password@ds131905.mlab.com:31905/heroku_mznt974k');
 }
 
+if (process.envMONGODB_URI) {
+    mongoose.connect(process.env.MONGOGB_URI);
+} else {
+    mongoose.connect(@ds131905.mlab.com:31905/heroku_mznt974k);
+}
+
 mongoose.Promise = Promise;
 
 mongoose.connect(MONGODB_URI, function(err) {
