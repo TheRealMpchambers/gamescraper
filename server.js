@@ -6,7 +6,14 @@ const express = require('express'),
         cheerio = require('cheerio')
         db = require('./models');
 
-const MONGOGB_URI = process.env.MONGOGB_URI;
+const MONGOGB_URI = process.env.MONGOGB_URI || 'mongodb://localhost:27017/gamenews';
+
+if (process.envMONGODB_URI) {
+    mongoose.connect(process.env.MONGOGB_URI);
+} else {
+    mongoose.connect(@ds131905.mlab.com:31905/heroku_mznt974k);
+}
+
 mongoose.Promise = Promise;
 
 mongoose.connect(MONGOGB_URI, function(err) {
@@ -14,7 +21,7 @@ mongoose.connect(MONGOGB_URI, function(err) {
     console.log('Successfully connected');
 });
 
-// const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 
