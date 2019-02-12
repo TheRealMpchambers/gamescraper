@@ -14,12 +14,6 @@ if (process.env.MONGODB_URI) {
     mongoose.connect('mongodb://original1:original1password@ds131905.mlab.com:31905/heroku_mznt974k');
 }
 
-if (process.envMONGODB_URI) {
-    mongoose.connect(process.env.MONGOGB_URI);
-} else {
-    mongoose.connect(@ds131905.mlab.com:31905/heroku_mznt974k);
-}
-
 mongoose.Promise = Promise;
 
 mongoose.connect(MONGODB_URI, function(err) {
@@ -42,9 +36,9 @@ app.get('/scrape', function(req, res) {
         var $ = cheerio.load(response.data);
         $('div.listElmnt-blogItem').each(function(i, element) {
             let result = {};
-            result.headline = $(element).children().text();
+            result.headline = $(element).find('a.listElmnt-storyHeadline').text();
             result.link = $(element).find('a.listElmnt-storyHeadline').attr('href');
-            result.summary = $(element).find('p')
+            result.summary = $(element).find('p').text();
             console.log(result);
             db.Article.create(result)
                 .then(function (dbArticle) {
@@ -69,7 +63,7 @@ app.get('/articles', function(req, res) {
   });
 
 
-app.post('/articles/:id', function (req, res) {
+app.post('/article/:id', function (req, res) {
     db.Note.create(req.body)
         .then(function (dbNote) {
             return db.Article.findOneandUpdate({

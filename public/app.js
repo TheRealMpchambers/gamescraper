@@ -26,14 +26,14 @@ $(document).ready(function() {
                     $('#commentSave').append('<button type="button" class="btn btn-danger" data-id="' + data._id + '" id="saveNote">Save Comment</button>');
 
                     if (data.note) {
-                        $('#titleInput').val(data.note.title);
-                        $('#bodyInput').val(data.note.body);
+                        $('#titleinput').val(data.note.title);
+                        $('#bodyinput').val(data.note.body);
                     }
                 });
         });
     });
 
-    $("#scraper").click(function(event) {
+    $('#scraper').click(function(event) {
         event.preventDefault();
         $.get('/scrape').then(function (data) {
             console.log('pressed');
@@ -41,23 +41,23 @@ $(document).ready(function() {
         });
     });
 
-    $(document).on('click', '#saveNote', function () {
+    $(document).on('click', '#savenote', function () {
         let thisId = $(this).attr('data-id');
 
         $.ajax({
                 method: "POST",
                 url: '/articles/' + thisId,
                 data: {
-                    title: $('#titleInput').val(),
-                    body: $('#bodyInput').val()
+                    title: $('#titleinput').val(),
+                    body: $('#bodyinput').val()
                 }
             })
             .then(function (data) {
                 console.log(data);
                 $('#notes').empty();
             });
-        $('#titleInput').val('');
-        $('#bodyInput').val('');
+        $('#titleinput').val('');
+        $('#bodyinput').val('');
     });
 
 });
