@@ -41,7 +41,7 @@ $(document).ready(function() {
         });
     });
 
-    $(document).on('click', '#savenote', function () {
+    $(document).on('click', '#savenote', function() {
         let thisId = $(this).attr('data-id');
 
         $.ajax({
