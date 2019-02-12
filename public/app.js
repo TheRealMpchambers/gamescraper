@@ -12,7 +12,7 @@ $(document).ready(function() {
 
             var thisId = $(this).attr('data-id');
             console.log('clicked')
-            console.log('thisId');
+            console.log('thisid');
 
             $.ajax({
                     method: 'GET',

@@ -1,10 +1,10 @@
 const express = require('express'),
-        bodyParser = require('body-parser'),
-        logger = require('morgan'),
-        mongoose = require('mongoose'),
-        axios = require('axios'),
-        cheerio = require('cheerio')
-        db = require('./models');
+    bodyParser = require('body-parser'),
+    logger = require('morgan'),
+    mongoose = require('mongoose'),
+    axios = require('axios'),
+    cheerio = require('cheerio')
+db = require('./models');
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/gamenews';
 
@@ -16,7 +16,7 @@ if (process.env.MONGODB_URI) {
 
 mongoose.Promise = Promise;
 
-mongoose.connect(MONGODB_URI, function(err) {
+mongoose.connect(MONGODB_URI, function (err) {
     if (err) throw err;
     console.log('Successfully connected');
 });
@@ -29,12 +29,13 @@ app.use(logger('dev'));
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+
 app.use(express.static('public'));
 
-app.get('/scrape', function(req, res) {
-    axios.get('https://www.ign.com/articles?tags=news').then(function(response) {
+app.get('/scrape', function (req, res) {
+    axios.get('https://www.ign.com/articles?tags=news').then(function (response) {
         var $ = cheerio.load(response.data);
-        $('div.listElmnt-blogItem').each(function(i, element) {
+        $('div.listElmnt-blogItem').each(function (i, element) {
             let result = {};
             result.headline = $(element).find('a.listElmnt-storyHeadline').text();
             result.link = $(element).find('a.listElmnt-storyHeadline').attr('href');
@@ -52,16 +53,28 @@ app.get('/scrape', function(req, res) {
     });
 });
 
-app.get('/articles', function(req, res) {
+app.get('/articles', function (req, res) {
     db.Article.find({})
-      .then(function(dbArticle) {
-        res.json(dbArticle);
-      })
-      .catch(function(err) {
-        res.json(err);
-      });
-  });
+        .then(function (dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function (err) {
+            res.json(err);
+        });
+});
 
+app.get('/articles/:id', function (req, res) {
+    db.Article.findOne({
+            _id: req.params.id
+        })
+        .populate('note')
+        .then(function (dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function (err) {
+            res.json(err);
+        });
+});
 
 app.post('/article/:id', function (req, res) {
     db.Note.create(req.body)
@@ -82,6 +95,6 @@ app.post('/article/:id', function (req, res) {
         });
 });
 
-app.listen(PORT, function() {
+app.listen(PORT, function () {
     console.log('App listening on port ' + PORT + '!');
 });
