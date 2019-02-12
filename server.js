@@ -6,11 +6,17 @@ const express = require('express'),
         cheerio = require('cheerio')
         db = require('./models');
 
-const MONGOGB_URI = process.env.MONGOGB_URI || 'mongodb://localhost:27017/gamenews';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/gamenews';
+
+if (process.env.MONGODB_URI) {
+    mongoose.connect(process.env.MONGODB_URI);
+} else {
+    mongoose.connect('mongodb://original1:original1password@ds131905.mlab.com:31905/heroku_mznt974k');
+}
 
 mongoose.Promise = Promise;
 
-mongoose.connect(MONGOGB_URI, function(err) {
+mongoose.connect(MONGODB_URI, function(err) {
     if (err) throw err;
     console.log('Successfully connected');
 });
@@ -31,7 +37,7 @@ app.get('/scrape', function(req, res) {
         $('div.listElmnt-blogItem').each(function(i, element) {
             let result = {};
             result.headline = $(element).children().text();
-            result.link = $(element).find('a.listElmnt-storyHeadline').attr('href'),
+            result.link = $(element).find('a.listElmnt-storyHeadline').attr('href');
             result.summary = $(element).find('p')
             console.log(result);
             db.Article.create(result)
