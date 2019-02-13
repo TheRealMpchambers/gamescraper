@@ -1,9 +1,9 @@
-$(document).ready(function() {
+$(document).ready(function () {
     $.getJSON('/articles', function (data) {
         for (var i = 0; i < data.length; i++) {
-            $("#articles").append("<div class='card'> <div class='card-header'> "  + data[i].headline + "</div> <div class='card-body'> <p class='card-text'>" + data[i].summary + "<br />" + data[i].link + "</p><button type='button' class='btn btn-dark commentBtn' data-toggle='modal' data-target='#commentModal' data-id ='" + data[i]._id + "'>Comment</button></div>");
+            $('#articles').append('<div class="card"> <div class="card-header"> ' + data[i].headline + '</div> <div class="card-body"> <p class="card-text">' + data[i].summary + '<br />' + data[i].link + '</p><button type="button" class="btn btn-danger commentBtn" data-toggle="modal" data-target="#commentModal" data-id ="' + data[i]._id + '">Comment</button></div>');
         }
-        $('.commentBtn').click(function(event) {
+        $('.commentBtn').click(function (event) {
             event.preventDefault();
             $('#commentTitle').empty();
             $('#commentHeadline').empty();
@@ -12,7 +12,7 @@ $(document).ready(function() {
 
             var thisId = $(this).attr('data-id');
             console.log('clicked')
-            console.log('thisid');
+            console.log('thisId');
 
             $.ajax({
                     method: 'GET',
@@ -21,9 +21,9 @@ $(document).ready(function() {
                 .then(function (data) {
                     console.log(data);
                     $('#commentHeadline').append('<h2>' + data.headline + '</h2>');
-                    $('#commentTitle').append('<input type="text" class="form-control" id="titleInput" name="title">');
-                    $('#commentBody').append('<textarea class="form control" id="bodyInput" name="body"></textarea>');
-                    $('#commentSave').append('<button type="button" class="btn btn-danger" data-id="' + data._id + '" id="saveNote">Save Comment</button>');
+                    $('#commentTitle').append('<input type="text" class="form-control" id="titleinput" name="title" >');
+                    $('#commentBody').append('<textarea class="form control" id="bodyinput" name="body"></textarea>');
+                    $('#commentSave').append('<button type="button" class="btn btn-danger" data-id="' + data._id + '" id="savenote">Save Comment</button>');
 
                     if (data.note) {
                         $('#titleinput').val(data.note.title);
@@ -33,7 +33,7 @@ $(document).ready(function() {
         });
     });
 
-    $('#scraper').click(function(event) {
+    $('#scraper').click(function (event) {
         event.preventDefault();
         $.get('/scrape').then(function (data) {
             console.log('pressed');
@@ -41,7 +41,7 @@ $(document).ready(function() {
         });
     });
 
-    $(document).on('click', '#savenote', function() {
+    $(document).on('click', '#savenote', function () {
         let thisId = $(this).attr('data-id');
 
         $.ajax({
@@ -54,7 +54,7 @@ $(document).ready(function() {
             })
             .then(function (data) {
                 console.log(data);
-                $('#notes').empty();
+                $('#note').empty();
             });
         $('#titleinput').val('');
         $('#bodyinput').val('');
